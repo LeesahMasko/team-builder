@@ -4,6 +4,7 @@ import Form from "./Form";
 import "./App.css";
 
 function App() {
+  const [teamList, setTeamList] = useState([]);
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -17,21 +18,28 @@ function App() {
     });
     console.log(formData);
   };
-  const [teamList] = useState([]);
+  
 
   const submitForm = event => {
-    teamList.push(formData);
+    const displayList = {
+      ...formData,
+      id: new Date(),
+      fname: formData.fname,
+      lname: formData.lname,
+      email: formData.email,
+      role: formData.role,
+    }
+    setTeamList([...teamList, displayList]);
     setFormData({
       fname: "",
       lname: "",
       email: "",
       role: ""
-    });
-
+    })
     event.preventDefault();
 
-    console.log(teamList);
-    console.log(formData);
+    console.log(displayList);
+    // console.log(formData);
   };
 
   return (
@@ -44,6 +52,11 @@ function App() {
         />
       </header>
       <h3>Team List</h3>
+      {
+        teamList.map(tl => (<div key={tl.id}>{tl.fname} {tl.lname} {tl.email} {tl.role}
+        </div>))
+      }
+
      
     </div>
   );
